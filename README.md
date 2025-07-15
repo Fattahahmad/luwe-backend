@@ -162,9 +162,16 @@ luwe/
 http://localhost:8000/api
 ```
 
+### Format Request
+**API ini mendukung dua format request:**
+
+1. **Raw JSON** (application/json)
+2. **Form-data** (multipart/form-data) - **Wajib untuk upload file**
+
 ### Autentikasi
 
 #### Register
+**Raw JSON:**
 ```http
 POST /api/register
 Content-Type: application/json
@@ -175,6 +182,17 @@ Content-Type: application/json
   "password": "password123",
   "password_confirmation": "password123"
 }
+```
+
+**Form-data (Postman):**
+```
+Method: POST
+URL: http://localhost:8000/api/register
+Body: form-data
+- name: John Doe
+- email: john@example.com
+- password: password123
+- password_confirmation: password123
 ```
 
 **Response:**
@@ -197,6 +215,7 @@ Content-Type: application/json
 ```
 
 #### Login
+**Raw JSON:**
 ```http
 POST /api/login
 Content-Type: application/json
@@ -205,6 +224,15 @@ Content-Type: application/json
   "email": "john@example.com",
   "password": "password123"
 }
+```
+
+**Form-data (Postman):**
+```
+Method: POST
+URL: http://localhost:8000/api/login
+Body: form-data
+- email: john@example.com
+- password: password123
 ```
 
 **Response:**
@@ -235,22 +263,49 @@ Authorization: Bearer {token}
 ```
 
 #### Update Profile
+**Raw JSON (tanpa file):**
 ```http
 POST /api/profile
 Authorization: Bearer {token}
-Content-Type: multipart/form-data
+Content-Type: application/json
 
-name=John Updated
-email=john.updated@example.com
-password=newpassword123
-password_confirmation=newpassword123
-profile_picture=@/path/to/image.jpg
+{
+  "name": "John Updated",
+  "email": "john.updated@example.com",
+  "password": "newpassword123",
+  "password_confirmation": "newpassword123"
+}
+```
+
+**Form-data (dengan file - Postman):**
+```
+Method: POST
+URL: http://localhost:8000/api/profile
+Headers:
+- Authorization: Bearer {token}
+Body: form-data
+- name: John Updated
+- email: john.updated@example.com
+- password: newpassword123
+- password_confirmation: newpassword123
+- profile_picture: [file] (pilih file gambar)
 ```
 
 #### Logout
+**Raw JSON:**
 ```http
 POST /api/logout
 Authorization: Bearer {token}
+```
+
+**Form-data (Postman):**
+```
+Method: POST
+URL: http://localhost:8000/api/logout
+Headers:
+- Authorization: Bearer {token}
+Body: form-data
+(kosong, tidak perlu parameter)
 ```
 
 ### Gambar

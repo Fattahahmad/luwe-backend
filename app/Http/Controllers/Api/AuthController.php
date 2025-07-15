@@ -13,10 +13,34 @@ class AuthController extends Controller
 {
     /**
      * Register a new user
+     * Accepts both raw JSON and form-data
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        // Solusi khusus untuk register dengan form-data
+        $inputData = $request->input();
+
+        if (empty($inputData) && !empty($_POST)) {
+            // Gunakan $_POST sebagai fallback
+            $inputData = $_POST;
+        }
+
+        // Extract data from all possible sources
+        $name = $inputData['name'] ?? $request->input('name');
+        $email = $inputData['email'] ?? $request->input('email');
+        $password = $inputData['password'] ?? $request->input('password');
+        $password_confirmation = $inputData['password_confirmation'] ?? $request->input('password_confirmation');
+
+        // Rebuild data array
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'password_confirmation' => $password_confirmation
+        ];
+
+        // Validate using rebuilt data
+        $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
@@ -31,9 +55,9 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
             'profile_picture' => 'default.svg',
         ]);
 
@@ -59,6 +83,7 @@ class AuthController extends Controller
 
     /**
      * Login user
+     * Accepts both raw JSON and form-data
      */
     public function login(Request $request)
     {
@@ -80,7 +105,7 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid credentials'
+                'message' => 'Email atau Password salah'
             ], 401);
         }
 
@@ -141,14 +166,15 @@ class AuthController extends Controller
             ]
         ], 200);
     }
-    
+
     /**
      * Update user profile
+     * Accepts both raw JSON and form-data (required for file upload)
      */
     public function updateProfile(Request $request)
     {
         $user = $request->user();
-        
+
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
@@ -168,11 +194,11 @@ class AuthController extends Controller
         if ($request->has('name')) {
             $user->name = $request->name;
         }
-        
+
         if ($request->has('email')) {
             $user->email = $request->email;
         }
-        
+
         if ($request->has('password')) {
             $user->password = Hash::make($request->password);
         }
@@ -191,7 +217,7 @@ class AuthController extends Controller
             $file = $request->file('profile_picture');
             $filename = time() . '_' . $user->id . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('images/profiles'), $filename);
-            
+
             $user->profile_picture = $filename;
         }
 

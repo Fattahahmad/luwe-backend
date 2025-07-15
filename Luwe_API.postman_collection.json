@@ -114,7 +114,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://127.0.0.1:8000"
+      "value": "https://a9e98aa55fba.ngrok-free.app/"
     },
     {
       "key": "auth_token",

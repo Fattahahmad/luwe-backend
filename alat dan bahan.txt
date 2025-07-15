@@ -1,0 +1,143 @@
+
+✅ Daftar Alat Masak Rumahan (dummy data untuk tabel alat)
+Kompor gas
+
+Kompor listrik
+
+Wajan
+
+Panci
+
+Spatula
+
+Sutil
+
+Pisau dapur
+
+Talenan
+
+Saringan
+
+Saringan minyak
+
+Cobek
+
+Ulekan
+
+Sendok
+
+Garpu
+
+Mangkuk
+
+Piring
+
+Blender
+
+Panci kukus
+
+Dandang
+
+Teko
+
+Ketel
+
+Rice cooker
+
+Wadah plastik
+
+Wadah kaca
+
+✅ Daftar Bahan Makanan Pokok (dummy data untuk tabel bahan)
+Beras
+
+Telur
+
+Minyak goreng
+
+Garam
+
+Gula pasir
+
+Bawang merah
+
+Bawang putih
+
+Cabai merah
+
+Cabai hijau
+
+Kecap manis
+
+Saus sambal
+
+Saus tomat
+
+Tepung terigu
+
+Margarin
+
+Mentega
+
+Air
+
+✅ Daftar Bahan Pelengkap / Tambahan (lanjutan bahan)
+Mie instan
+
+Kentang
+
+Wortel
+
+Daun bawang
+
+Seledri
+
+Tomat
+
+Timun
+
+Kol
+
+Kubis
+
+Tahu
+
+Tempe
+
+Daging ayam
+
+Daging sapi
+
+Ikan asin
+
+Ikan teri
+
+Susu kental manis
+
+Susu UHT
+
+Santan instan
+
+Kaldu bubuk
+
+Penyedap rasa
+
+Roti tawar
+
+Keju
+
+✅ Daftar Bumbu Dapur Kering (lanjutan bahan)
+Lada bubuk
+
+Ketumbar bubuk
+
+Kunyit bubuk
+
+Jahe bubuk
+
+Lengkuas bubuk
+
+Daun salam kering
+
+Serai kering
+

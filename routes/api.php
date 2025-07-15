@@ -12,6 +12,11 @@ Route::get('/user', function (Request $request) {
 // Image service route
 Route::get('/image/{filename}', [ImageController::class, 'show']);
 
+// Handle OPTIONS preflight requests
+Route::options('/{any}', function() {
+    return response()->json('OK', 200);
+})->where('any', '.*');
+
 // Public routes (tidak perlu authentication)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
