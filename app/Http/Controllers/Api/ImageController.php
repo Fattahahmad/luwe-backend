@@ -37,9 +37,14 @@ class ImageController extends Controller
         };
         
         // Return image with proper headers
-        return response()->file($path, [
-            'Content-Type' => $contentType,
-            'Cache-Control' => 'public, max-age=31536000', // Cache for 1 year
-        ]);
+        if (!file_exists($path)) {
+            abort(404, 'Image not found');
+        }
+        
+        $file = file_get_contents($path);
+        
+        return response($file, 200)
+            ->header('Content-Type', $contentType)
+            ->header('Cache-Control', 'public, max-age=31536000');
     }
 }

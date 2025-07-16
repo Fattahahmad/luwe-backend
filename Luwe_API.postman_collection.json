@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Luwe Recipe API",
-    "description": "API collection for Luwe Recipe App",
+    "name": "Luwe Recipe API - Complete Collection",
+    "description": "🍳 **Luwe Recipe API Documentation**\n\n## 📋 **Setup Instructions:**\n1. Set `base_url` variable to your server URL:\n   - **Local**: `http://localhost/luwe/public`\n   - **Network**: `http://YOUR_IP/luwe/public` (e.g., `http://192.168.1.100/luwe/public`)\n2. Login to get auth token\n3. Set `auth_token` variable with received token\n\n## 🌐 **Cross-Device Access Guide:**\n\n### **For Different Device Access:**\n1. **Find Server IP**: Run `ipconfig` (Windows) or `ifconfig` (Mac/Linux)\n2. **Update base_url**: Change from `localhost` to actual IP\n3. **Network Requirements**: Both devices must be on same WiFi/LAN\n4. **Test First**: Use Debug Routes → API Debug Test\n5. **Firewall**: Ensure port 80 is open on server\n\n### **Common Issues:**\n- ❌ `failed to fetch`: CORS or network issue\n- ❌ `Connection refused`: Server not accessible from client\n- ❌ `Timeout`: Firewall blocking or wrong IP\n- ✅ **Solution**: Use debug endpoints for troubleshooting\n\n## 🔐 **Authentication:**\n- All endpoints (except register/login) require Bearer token\n- Token expires after some time, re-login if needed\n\n## 📝 **Form Data Usage:**\n- ALL requests use form-data (NO raw JSON)\n- File uploads use form-data with file type\n\n## 🍴 **Recipe Creation Guide:**\n\n### **Required Fields:**\n- `title`: Recipe name\n- `description`: Recipe description\n- `cooking_time`: Time in minutes\n- `thumbnail`: Main recipe image (REQUIRED)\n\n### **Multiple Images (Optional):**\n- `images[0]`: Additional image 1\n- `images[1]`: Additional image 2\n- `images[2]`: Additional image 3\n- `images[3]`: Additional image 4\n- Maximum: 1 thumbnail + 4 additional images\n\n### **Steps:**\n- `steps[0][instruction]`: Step 1\n- `steps[1][instruction]`: Step 2\n- Add more as needed: `steps[N][instruction]`\n\n### **Alat (Cooking Tools):**\n- Get available tools from `/api/alats`\n- Format: `alats[0][id]` = tool ID, `alats[0][amount]` = quantity\n- Example: `alats[0][id]=1`, `alats[0][amount]=1 buah`\n\n### **Bahan (Ingredients):**\n- Get available ingredients from `/api/bahans`\n- Format: `bahans[0][id]` = ingredient ID, `bahans[0][amount]` = quantity\n- Example: `bahans[0][id]=1`, `bahans[0][amount]=2 piring`\n\n## 📊 **Pagination:**\n- All list endpoints support pagination\n- Default: 10 items per page (recipes, favorites, my-recipes)\n- Notifications: 20 items per page\n- Use `?page=N` parameter for navigation\n\n## 🔔 **Notifications:**\n- Auto-generated when users favorite recipes\n- Support unread filtering: `?unread_only=true`\n- Include profile pictures and recipe thumbnails\n\n## 🖼️ **Images:**\n- Profile pictures: `/api/image/{filename}`\n- Recipe images: `/images/recipes/{filename}`\n- Auto-fallback to default images if not found\n\n## 🔧 **Troubleshooting:**\n- Use **Debug Routes** folder for connectivity testing\n- API Debug Test: Basic connectivity check\n- CORS Test: Cross-origin request testing\n- Check image endpoints for file serving issues",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -14,17 +14,34 @@
             "method": "POST",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
                 "key": "Accept",
                 "value": "application/json"
               }
             ],
             "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Test User",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "testuser@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "password123",
+                  "type": "text"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "password123",
+                  "type": "text"
+                }
+              ]
             },
             "url": {
               "raw": "{{base_url}}/api/register",
@@ -39,17 +56,24 @@
             "method": "POST",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
                 "key": "Accept",
                 "value": "application/json"
               }
             ],
             "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password\"\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "test@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "password",
+                  "type": "text"
+                }
+              ]
             },
             "url": {
               "raw": "{{base_url}}/api/login",
@@ -107,6 +131,776 @@
               "path": ["api", "logout"]
             }
           }
+        },
+        {
+          "name": "Update Profile Picture",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "profile_picture",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/profile/picture",
+              "host": ["{{base_url}}"],
+              "path": ["api", "profile", "picture"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recipes",
+      "item": [
+        {
+          "name": "Get All Recipes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes"]
+            },
+            "description": "Get all recipes with pagination (10 per page). Add ?page=2 for next page"
+          }
+        },
+        {
+          "name": "Get All Recipes with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes?page=2",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2",
+                  "description": "Page number for pagination"
+                }
+              ]
+            },
+            "description": "Example of pagination - get page 2 of recipes"
+          }
+        },
+        {
+          "name": "Search Recipes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes?search=telur",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "telur"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Recipe Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Recipe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Nasi Goreng Spesial",
+                  "type": "text",
+                  "description": "Judul resep"
+                },
+                {
+                  "key": "description",
+                  "value": "Nasi goreng dengan telur dan sayuran segar yang lezat",
+                  "type": "text",
+                  "description": "Deskripsi resep"
+                },
+                {
+                  "key": "cooking_time",
+                  "value": "20",
+                  "type": "text",
+                  "description": "Waktu memasak dalam menit"
+                },
+                {
+                  "key": "thumbnail",
+                  "type": "file",
+                  "src": "",
+                  "description": "WAJIB: Foto utama resep (thumbnail)"
+                },
+                {
+                  "key": "images[0]",
+                  "type": "file",
+                  "src": "",
+                  "description": "OPSIONAL: Foto tambahan 1"
+                },
+                {
+                  "key": "images[1]",
+                  "type": "file",
+                  "src": "",
+                  "description": "OPSIONAL: Foto tambahan 2"
+                },
+                {
+                  "key": "images[2]",
+                  "type": "file",
+                  "src": "",
+                  "description": "OPSIONAL: Foto tambahan 3"
+                },
+                {
+                  "key": "images[3]",
+                  "type": "file",
+                  "src": "",
+                  "description": "OPSIONAL: Foto tambahan 4 (maksimal 4 foto tambahan)"
+                },
+                {
+                  "key": "steps[0][instruction]",
+                  "value": "Panaskan minyak di wajan dengan api sedang",
+                  "type": "text",
+                  "description": "Langkah 1"
+                },
+                {
+                  "key": "steps[1][instruction]",
+                  "value": "Masukkan telur, orak-arik hingga matang",
+                  "type": "text",
+                  "description": "Langkah 2"
+                },
+                {
+                  "key": "steps[2][instruction]",
+                  "value": "Masukkan nasi dan aduk rata dengan telur",
+                  "type": "text",
+                  "description": "Langkah 3"
+                },
+                {
+                  "key": "steps[3][instruction]",
+                  "value": "Tambahkan kecap manis dan sayuran, aduk hingga matang",
+                  "type": "text",
+                  "description": "Langkah 4"
+                },
+                {
+                  "key": "alats[0][id]",
+                  "value": "1",
+                  "type": "text",
+                  "description": "ID alat dari /api/alats (contoh: 1=Wajan)"
+                },
+                {
+                  "key": "alats[0][amount]",
+                  "value": "1 buah",
+                  "type": "text",
+                  "description": "Jumlah alat yang dibutuhkan"
+                },
+                {
+                  "key": "alats[1][id]",
+                  "value": "2",
+                  "type": "text",
+                  "description": "ID alat kedua (contoh: 2=Spatula)"
+                },
+                {
+                  "key": "alats[1][amount]",
+                  "value": "1 buah",
+                  "type": "text",
+                  "description": "Jumlah alat kedua"
+                },
+                {
+                  "key": "bahans[0][id]",
+                  "value": "1",
+                  "type": "text",
+                  "description": "ID bahan dari /api/bahans (contoh: 1=Nasi)"
+                },
+                {
+                  "key": "bahans[0][amount]",
+                  "value": "2 piring",
+                  "type": "text",
+                  "description": "Jumlah bahan yang dibutuhkan"
+                },
+                {
+                  "key": "bahans[1][id]",
+                  "value": "2",
+                  "type": "text",
+                  "description": "ID bahan kedua (contoh: 2=Telur)"
+                },
+                {
+                  "key": "bahans[1][amount]",
+                  "value": "2 butir",
+                  "type": "text",
+                  "description": "Jumlah bahan kedua"
+                },
+                {
+                  "key": "bahans[2][id]",
+                  "value": "3",
+                  "type": "text",
+                  "description": "ID bahan ketiga (contoh: 3=Kecap Manis)"
+                },
+                {
+                  "key": "bahans[2][amount]",
+                  "value": "2 sdm",
+                  "type": "text",
+                  "description": "Jumlah bahan ketiga"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/recipes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes"]
+            }
+          }
+        },
+        {
+          "name": "Update Recipe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "_method",
+                  "value": "PUT",
+                  "type": "text"
+                },
+                {
+                  "key": "title",
+                  "value": "Nasi Goreng Updated",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Nasi goreng dengan telur dan sayuran - updated",
+                  "type": "text"
+                },
+                {
+                  "key": "cooking_time",
+                  "value": "25",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/recipes/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Recipe",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Favorites",
+      "item": [
+        {
+          "name": "Get My Favorites",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/favorites",
+              "host": ["{{base_url}}"],
+              "path": ["api", "favorites"]
+            }
+          }
+        },
+        {
+          "name": "Add to Favorites",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/1/favorite",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "1", "favorite"]
+            }
+          }
+        },
+        {
+          "name": "Remove from Favorites",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/1/favorite",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "1", "favorite"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get All Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Get Unread Notifications Only",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications?unread_only=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications"],
+              "query": [
+                {
+                  "key": "unread_only",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Unread Count",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/unread-count",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "unread-count"]
+            }
+          }
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/1/read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "1", "read"]
+            }
+          }
+        },
+        {
+          "name": "Mark All as Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/read-all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "read-all"]
+            }
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "My Recipes",
+      "item": [
+        {
+          "name": "Get My Recipes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/my-recipes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "my-recipes"]
+            }
+          }
+        },
+        {
+          "name": "Search My Recipes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/my-recipes?search=nasi",
+              "host": ["{{base_url}}"],
+              "path": ["api", "my-recipes"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "nasi"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Recipe Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/my-recipes/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "my-recipes", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Master Data",
+      "description": "📋 **Master Data Endpoints**\n\nUse these endpoints to get available tools and ingredients for recipe creation.\n\n**Workflow:**\n1. Call `/api/alats` to get available cooking tools\n2. Call `/api/bahans` to get available ingredients  \n3. Use the IDs from these responses in recipe creation\n\n**Example:**\n- If `/api/alats` returns `{\"id\": 1, \"name\": \"Wajan\"}`\n- Use `alats[0][id]=1` and `alats[0][amount]=1 buah` in recipe creation",
+      "item": [
+        {
+          "name": "Get All Alats (Cooking Tools)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/alats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "alats"]
+            },
+            "description": "📋 Get list of all available cooking tools\n\n**Response Example:**\n```json\n[\n  {\"id\": 1, \"name\": \"Wajan\"},\n  {\"id\": 2, \"name\": \"Spatula\"},\n  {\"id\": 3, \"name\": \"Panci\"}\n]\n```\n\n**Usage in Recipe:**\n- Use the `id` in `alats[0][id]`\n- Add quantity in `alats[0][amount]`"
+          }
+        },
+        {
+          "name": "Get All Bahans (Ingredients)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/bahans",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bahans"]
+            },
+            "description": "🥬 Get list of all available ingredients\n\n**Response Example:**\n```json\n[\n  {\"id\": 1, \"name\": \"Nasi\"},\n  {\"id\": 2, \"name\": \"Telur\"},\n  {\"id\": 3, \"name\": \"Kecap Manis\"}\n]\n```\n\n**Usage in Recipe:**\n- Use the `id` in `bahans[0][id]`  \n- Add quantity in `bahans[0][amount]`"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Debug Routes",
+      "description": "🔧 **Debug & Troubleshooting**\n\nUse these endpoints to diagnose connectivity issues, especially when accessing from different devices.\n\n**Cross-Device Access Guide:**\n\n1. **Find Server IP**: Use ipconfig/ifconfig to get your server's IP address\n2. **Update base_url**: Change from localhost to actual IP (e.g., `http://192.168.1.100/luwe/public`)\n3. **Test Connectivity**: Use debug endpoints to verify connection\n4. **Check Firewall**: Ensure port 80/443 is open on server\n5. **XAMPP Config**: Make sure Apache is accessible from network\n\n**Common Issues:**\n- `failed to fetch`: Usually CORS or network connectivity\n- `Connection refused`: Server not accessible from client device\n- `Timeout`: Firewall blocking or wrong IP\n\n**Network Setup:**\n- Server and client must be on same network (WiFi/LAN)\n- Use server's local IP, not localhost/127.0.0.1\n- Test with browser first before API calls",
+      "item": [
+        {
+          "name": "API Debug Test",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/debug",
+              "host": ["{{base_url}}"],
+              "path": ["api", "debug"]
+            },
+            "description": "🔍 **Basic API connectivity test**\n\nThis endpoint tests:\n- API server is running\n- CORS headers are working\n- Network connectivity\n- Server information\n\n**Expected Response:**\n```json\n{\n  \"status\": \"API working\",\n  \"timestamp\": \"2025-07-16T...\",\n  \"server_ip\": \"192.168.1.100\",\n  \"client_ip\": \"192.168.1.101\",\n  \"cors_enabled\": true\n}\n```\n\n**Troubleshooting:**\n- If this fails, check base_url variable\n- Ensure server IP is correct\n- Try accessing from browser first"
+          }
+        },
+        {
+          "name": "CORS Test",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/debug-cors",
+              "host": ["{{base_url}}"],
+              "path": ["debug-cors"]
+            },
+            "description": "🌐 **CORS-specific connectivity test**\n\nTests CORS headers and cross-origin requests.\n\n**Response includes:**\n- Server and client IP addresses\n- Request headers\n- CORS configuration status\n- Timestamp for latency check\n\n**Use this when:**\n- Getting CORS errors\n- Accessing from different domain/device\n- Browser blocking requests"
+          }
+        },
+        {
+          "name": "Create Sample Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/create-sample-notifications",
+              "host": ["{{base_url}}"],
+              "path": ["create-sample-notifications"]
+            }
+          }
+        },
+        {
+          "name": "Debug Profile Pictures",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/debug-profile-picture",
+              "host": ["{{base_url}}"],
+              "path": ["debug-profile-picture"]
+            }
+          }
+        },
+        {
+          "name": "Get Image File",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/image/1752591825_27.jpg",
+              "host": ["{{base_url}}"],
+              "path": ["api", "image", "1752591825_27.jpg"]
+            },
+            "description": "Test image endpoint - replace filename with actual image filename"
+          }
         }
       ]
     }
@@ -114,7 +908,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "https://a9e98aa55fba.ngrok-free.app/"
+      "value": "http://localhost/luwe/public"
     },
     {
       "key": "auth_token",

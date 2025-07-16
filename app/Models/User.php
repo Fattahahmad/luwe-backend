@@ -66,4 +66,31 @@ class User extends Authenticatable
     {
         return $this->profile_picture ?? 'default.svg';
     }
+
+    // Recipe relationships
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
+
+    public function favoriteRecipes()
+    {
+        return $this->belongsToMany(Recipe::class, 'recipe_favorites')->withTimestamps();
+    }
+
+    public function recipeFavorites()
+    {
+        return $this->hasMany(RecipeFavorite::class);
+    }
+
+    // Notification relationships
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function sentNotifications()
+    {
+        return $this->hasMany(Notification::class, 'from_user_id');
+    }
 }
