@@ -20,7 +20,7 @@ class Cors
         }
 
         $response = $next($request);
-        
+
         // Add CORS headers to all responses
         return $response
             ->header('Access-Control-Allow-Origin', '*')

@@ -33,6 +33,14 @@ class RecipeController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
+        // Filter by category
+        if ($request->has('category')) {
+            $validCategories = ['appetizer', 'main_course', 'dessert'];
+            if (in_array($request->category, $validCategories)) {
+                $query->where('category', $request->category);
+            }
+        }
+
         $recipes = $query->orderBy('created_at', 'desc')->paginate(10);
 
         // Add favorite status for authenticated user
@@ -57,6 +65,38 @@ class RecipeController extends Controller
     }
 
     /**
+     * Display newest recipes (public - no auth needed)
+     * Khusus untuk tab "Newest" di Flutter app
+     */
+    public function newest(Request $request)
+    {
+        $query = Recipe::with(['user:id,name', 'images', 'favorites']);
+
+        // Sort by newest first (DESC = terbaru di atas)
+        $recipes = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        // Add favorite status for authenticated user
+        if (Auth::check()) {
+            $userId = Auth::id();
+            foreach ($recipes as $recipe) {
+                $recipe->is_favorited = $recipe->isFavoritedBy($userId);
+                $recipe->favorites_count = $recipe->favorites->count();
+            }
+        } else {
+            foreach ($recipes as $recipe) {
+                $recipe->is_favorited = false;
+                $recipe->favorites_count = $recipe->favorites->count();
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Newest recipes retrieved successfully',
+            'data' => $recipes
+        ]);
+    }
+
+    /**
      * Store a newly created recipe (auth required)
      */
     public function store(Request $request)
@@ -65,6 +105,7 @@ class RecipeController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'cooking_time' => 'required|integer|min:1',
+            'category' => 'required|in:appetizer,main_course,dessert',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'steps' => 'required|array|min:1',
@@ -75,6 +116,7 @@ class RecipeController extends Controller
             'bahans' => 'nullable|array',
             'bahans.*.id' => 'required_with:bahans|exists:bahans,id',
             'bahans.*.amount' => 'required_with:bahans|string',
+            'bahans.*.unit' => 'required_with:bahans|string',
         ]);
 
         if ($validator->fails()) {
@@ -93,6 +135,7 @@ class RecipeController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'cooking_time' => $request->cooking_time,
+                'category' => $request->category,
             ]);
 
             // Handle thumbnail upload
@@ -108,7 +151,7 @@ class RecipeController extends Controller
                 foreach ($request->file('images') as $index => $image) {
                     $imageName = time() . '_img_' . $recipe->id . '_' . $index . '.' . $image->getClientOriginalExtension();
                     $image->move(public_path('images/recipes'), $imageName);
-                    
+
                     RecipeImage::create([
                         'recipe_id' => $recipe->id,
                         'image_path' => $imageName,
@@ -139,7 +182,10 @@ class RecipeController extends Controller
             if ($request->has('bahans')) {
                 $bahanData = [];
                 foreach ($request->bahans as $bahan) {
-                    $bahanData[$bahan['id']] = ['amount' => $bahan['amount']];
+                    $bahanData[$bahan['id']] = [
+                        'amount' => $bahan['amount'],
+                        'unit' => $bahan['unit']
+                    ];
                 }
                 $recipe->bahans()->attach($bahanData);
             }
@@ -228,6 +274,7 @@ class RecipeController extends Controller
             'title' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
             'cooking_time' => 'sometimes|required|integer|min:1',
+            'category' => 'sometimes|required|in:appetizer,main_course,dessert',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'steps' => 'sometimes|required|array|min:1',
@@ -238,6 +285,7 @@ class RecipeController extends Controller
             'bahans' => 'nullable|array',
             'bahans.*.id' => 'required_with:bahans|exists:bahans,id',
             'bahans.*.amount' => 'required_with:bahans|string',
+            'bahans.*.unit' => 'required_with:bahans|string',
         ]);
 
         if ($validator->fails()) {
@@ -258,7 +306,7 @@ class RecipeController extends Controller
             ]);
 
             // Update basic fields
-            $recipe->update($request->only(['title', 'description', 'cooking_time']));
+            $recipe->update($request->only(['title', 'description', 'cooking_time', 'category']));
 
             // Handle thumbnail update
             if ($request->hasFile('thumbnail')) {
@@ -293,7 +341,7 @@ class RecipeController extends Controller
                 foreach ($request->file('images') as $index => $image) {
                     $imageName = time() . '_img_' . $recipe->id . '_' . $index . '.' . $image->getClientOriginalExtension();
                     $image->move(public_path('images/recipes'), $imageName);
-                    
+
                     RecipeImage::create([
                         'recipe_id' => $recipe->id,
                         'image_path' => $imageName,
@@ -306,7 +354,7 @@ class RecipeController extends Controller
             if ($request->has('steps')) {
                 // Delete old steps
                 $recipe->steps()->delete();
-                
+
                 // Create new steps
                 foreach ($request->steps as $index => $step) {
                     RecipeStep::create([
@@ -332,7 +380,10 @@ class RecipeController extends Controller
                 $recipe->bahans()->detach();
                 $bahanData = [];
                 foreach ($request->bahans as $bahan) {
-                    $bahanData[$bahan['id']] = ['amount' => $bahan['amount']];
+                    $bahanData[$bahan['id']] = [
+                        'amount' => $bahan['amount'],
+                        'unit' => $bahan['unit']
+                    ];
                 }
                 $recipe->bahans()->attach($bahanData);
             }
@@ -412,5 +463,63 @@ class RecipeController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Get recipes by category
+     */
+    public function getByCategory($category)
+    {
+        $validCategories = ['appetizer', 'main_course', 'dessert'];
+        
+        if (!in_array($category, $validCategories)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid category. Valid categories are: ' . implode(', ', $validCategories)
+            ], 400);
+        }
+
+        $recipes = Recipe::with(['user:id,name', 'images'])
+            ->where('category', $category)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Add dynamic URLs to each recipe
+        foreach ($recipes as $recipe) {
+            $recipe->thumbnail_url = $recipe->thumbnail ? $recipe->thumbnail_url : null;
+            foreach ($recipe->images as $image) {
+                $image->image_url = $image->image_url;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Recipes retrieved successfully',
+            'data' => $recipes
+        ]);
+    }
+
+    /**
+     * Get appetizer recipes
+     */
+    public function getAppetizers()
+    {
+        return $this->getByCategory('appetizer');
+    }
+
+    /**
+     * Get main course recipes
+     */
+    public function getMainCourses()
+    {
+        return $this->getByCategory('main_course');
+    }
+
+    /**
+     * Get dessert recipes
+     */
+    public function getDesserts()
+    {
+        return $this->getByCategory('dessert');
     }
 }

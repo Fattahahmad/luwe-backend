@@ -24,6 +24,8 @@ class RecipeImage extends Model
 
     public function getImageUrlAttribute()
     {
-        return asset('images/recipes/' . $this->image_path);
+        // Use request URL for dynamic base URL (works with ngrok)
+        $baseUrl = request()->getSchemeAndHttpHost();
+        return $baseUrl . '/images/recipes/' . $this->image_path;
     }
 }

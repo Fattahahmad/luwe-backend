@@ -1,0 +1,31 @@
+Buatkan 30 dummy data resep masakan Indonesia dalam format JSON untuk aplikasi resep masakan.
+
+Format yang dibutuhkan:
+- title: nama resep menarik dalam bahasa Indonesia
+- description: deskripsi singkat 1-2 kalimat yang menggugah selera
+- cooking_time: waktu memasak dalam menit (integer, realistis)
+- category: "appetizer", "main_course", atau "dessert"
+- ingredients: array bahan dengan amount dan unit
+
+Bahan-bahan yang tersedia: Beras, Telur, Bawang merah, Bawang putih, Cabai merah, Cabai hijau, Tomat, Daging ayam, Daging sapi, Ikan asin, Tahu, Tempe, Garam, Gula pasir, Minyak goreng, Kecap manis, Saus sambal, Tepung terigu, Kentang, Wortel, Kangkung, Bayam, Timun.
+
+Units: gram, kilogram, ons, mililiter, liter, sendok makan, sendok teh, gelas, buah, siung, potong, sachet, bungkus.
+
+Distribusi: 8 appetizer (10-30 menit), 15 main_course (20-90 menit), 7 dessert (15-60 menit).
+
+Format JSON array:
+[
+  {
+    "title": "Nasi Goreng Kampung",
+    "description": "Nasi goreng dengan bumbu tradisional dan sayuran segar yang menggugah selera",
+    "cooking_time": 25,
+    "category": "main_course", 
+    "ingredients": [
+      {"name": "Beras", "amount": 300, "unit": "gram"},
+      {"name": "Telur", "amount": 2, "unit": "buah"},
+      {"name": "Bawang merah", "amount": 3, "unit": "siung"}
+    ]
+  }
+]
+
+Pastikan nama resep unik, waktu realistis, dan bahan sesuai kategori. Fokus resep-resep populer Indonesia.

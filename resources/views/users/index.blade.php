@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +13,20 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
+
         .container {
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 30px;
         }
+
         .success {
             background-color: #d4edda;
             color: #155724;
@@ -30,23 +34,29 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
+
+        th,
+        td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
             background-color: #f8f9fa;
             font-weight: bold;
         }
+
         tr:hover {
             background-color: #f5f5f5;
         }
+
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -56,15 +66,18 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+
         .btn:hover {
             background-color: #0056b3;
         }
+
         .profile-img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
         }
+
         .empty-state {
             text-align: center;
             padding: 40px;
@@ -72,11 +85,12 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Users - Luwe Recipe App</h1>
-        
-        @if(session('success'))
+
+        @if (session('success'))
             <div class="success">
                 {{ session('success') }}
             </div>
@@ -84,7 +98,7 @@
 
         <a href="{{ route('register') }}" class="btn">Add New User</a>
 
-        @if($users->count() > 0)
+        @if ($users->count() > 0)
             <table>
                 <thead>
                     <tr>
@@ -96,7 +110,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $user)
+                    @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
                             <td>
@@ -116,4 +130,5 @@
         @endif
     </div>
 </body>
+
 </html>

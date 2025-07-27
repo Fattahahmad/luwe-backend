@@ -79,7 +79,7 @@ class UserRecipeController extends Controller
     public function recipeStats()
     {
         $userId = Auth::id();
-        
+
         $totalRecipes = Recipe::where('user_id', $userId)->count();
         $totalFavorites = Recipe::where('user_id', $userId)
             ->withCount('favorites')

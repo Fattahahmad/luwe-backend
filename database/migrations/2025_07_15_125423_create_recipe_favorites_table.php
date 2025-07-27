@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            
+
             // Unique constraint - user tidak bisa favorite resep yang sama 2x
             $table->unique(['user_id', 'recipe_id']);
         });

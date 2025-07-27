@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Luwe Recipe API - Complete Collection",
-    "description": "🍳 **Luwe Recipe API Documentation**\n\n## 📋 **Setup Instructions:**\n1. Set `base_url` variable to your server URL:\n   - **Local**: `http://localhost/luwe/public`\n   - **Network**: `http://YOUR_IP/luwe/public` (e.g., `http://192.168.1.100/luwe/public`)\n2. Login to get auth token\n3. Set `auth_token` variable with received token\n\n## 🌐 **Cross-Device Access Guide:**\n\n### **For Different Device Access:**\n1. **Find Server IP**: Run `ipconfig` (Windows) or `ifconfig` (Mac/Linux)\n2. **Update base_url**: Change from `localhost` to actual IP\n3. **Network Requirements**: Both devices must be on same WiFi/LAN\n4. **Test First**: Use Debug Routes → API Debug Test\n5. **Firewall**: Ensure port 80 is open on server\n\n### **Common Issues:**\n- ❌ `failed to fetch`: CORS or network issue\n- ❌ `Connection refused`: Server not accessible from client\n- ❌ `Timeout`: Firewall blocking or wrong IP\n- ✅ **Solution**: Use debug endpoints for troubleshooting\n\n## 🔐 **Authentication:**\n- All endpoints (except register/login) require Bearer token\n- Token expires after some time, re-login if needed\n\n## 📝 **Form Data Usage:**\n- ALL requests use form-data (NO raw JSON)\n- File uploads use form-data with file type\n\n## 🍴 **Recipe Creation Guide:**\n\n### **Required Fields:**\n- `title`: Recipe name\n- `description`: Recipe description\n- `cooking_time`: Time in minutes\n- `thumbnail`: Main recipe image (REQUIRED)\n\n### **Multiple Images (Optional):**\n- `images[0]`: Additional image 1\n- `images[1]`: Additional image 2\n- `images[2]`: Additional image 3\n- `images[3]`: Additional image 4\n- Maximum: 1 thumbnail + 4 additional images\n\n### **Steps:**\n- `steps[0][instruction]`: Step 1\n- `steps[1][instruction]`: Step 2\n- Add more as needed: `steps[N][instruction]`\n\n### **Alat (Cooking Tools):**\n- Get available tools from `/api/alats`\n- Format: `alats[0][id]` = tool ID, `alats[0][amount]` = quantity\n- Example: `alats[0][id]=1`, `alats[0][amount]=1 buah`\n\n### **Bahan (Ingredients):**\n- Get available ingredients from `/api/bahans`\n- Format: `bahans[0][id]` = ingredient ID, `bahans[0][amount]` = quantity\n- Example: `bahans[0][id]=1`, `bahans[0][amount]=2 piring`\n\n## 📊 **Pagination:**\n- All list endpoints support pagination\n- Default: 10 items per page (recipes, favorites, my-recipes)\n- Notifications: 20 items per page\n- Use `?page=N` parameter for navigation\n\n## 🔔 **Notifications:**\n- Auto-generated when users favorite recipes\n- Support unread filtering: `?unread_only=true`\n- Include profile pictures and recipe thumbnails\n\n## 🖼️ **Images:**\n- Profile pictures: `/api/image/{filename}`\n- Recipe images: `/images/recipes/{filename}`\n- Auto-fallback to default images if not found\n\n## 🔧 **Troubleshooting:**\n- Use **Debug Routes** folder for connectivity testing\n- API Debug Test: Basic connectivity check\n- CORS Test: Cross-origin request testing\n- Check image endpoints for file serving issues",
+    "description": "🍳 **Luwe Recipe API Documentation**\n\n## 📋 **Setup Instructions:**\n1. Set `base_url` variable to your server URL:\n   - **Local**: `http://localhost/luwe/public`\n   - **Network**: `http://YOUR_IP/luwe/public` (e.g., `http://192.168.1.100/luwe/public`)\n2. Login to get auth token\n3. Set `auth_token` variable with received token\n\n## 🌐 **Cross-Device Access Guide:**\n\n### **For Different Device Access:**\n1. **Find Server IP**: Run `ipconfig` (Windows) or `ifconfig` (Mac/Linux)\n2. **Update base_url**: Change from `localhost` to actual IP\n3. **Network Requirements**: Both devices must be on same WiFi/LAN\n4. **Test First**: Use Debug Routes → API Debug Test\n5. **Firewall**: Ensure port 80 is open on server\n\n### **Common Issues:**\n- ❌ `failed to fetch`: CORS or network issue\n- ❌ `Connection refused`: Server not accessible from client\n- ❌ `Timeout`: Firewall blocking or wrong IP\n- ✅ **Solution**: Use debug endpoints for troubleshooting\n\n## 🔐 **Authentication:**\n- All endpoints (except register/login) require Bearer token\n- Token expires after some time, re-login if needed\n\n## 📝 **Form Data Usage:**\n- ALL requests use form-data (NO raw JSON)\n- File uploads use form-data with file type\n\n## 🍴 **Recipe Creation Guide:**\n\n### **Required Fields:**\n- `title`: Recipe name\n- `description`: Recipe description\n- `cooking_time`: Time in minutes\n- `category`: Recipe category (appetizer, main_course, dessert)\n- `thumbnail`: Main recipe image (REQUIRED)\n\n### **Multiple Images (Optional):**\n- `images[0]`: Additional image 1\n- `images[1]`: Additional image 2\n- `images[2]`: Additional image 3\n- `images[3]`: Additional image 4\n- Maximum: 1 thumbnail + 4 additional images\n\n### **Steps:**\n- `steps[0][instruction]`: Step 1\n- `steps[1][instruction]`: Step 2\n- Add more as needed: `steps[N][instruction]`\n\n### **Alat (Cooking Tools):**\n- Get available tools from `/api/alats`\n- Format: `alats[0][id]` = tool ID, `alats[0][amount]` = quantity\n- Example: `alats[0][id]=1`, `alats[0][amount]=1 buah`\n\n### **Bahan (Ingredients):**\n- Get available ingredients from `/api/bahans`\n- Format: `bahans[0][id]` = ingredient ID, `bahans[0][amount]` = quantity, `bahans[0][unit]` = unit\n- Example: `bahans[0][id]=1`, `bahans[0][amount]=250`, `bahans[0][unit]=gram`\n\n## 📊 **Pagination:**\n- All list endpoints support pagination\n- Default: 10 items per page (recipes, favorites, my-recipes)\n- Notifications: 20 items per page\n- Explore: 12 groups per page\n- Parameters: `page`, `per_page`, `search`, `sort_by`, `min_recipes`\n\n## 🔍 **Explore Feature:**\n- Groups recipes by first word similarity\n- Supports category filtering (all, appetizer, main_course, dessert)\n- Pagination and search enabled\n- Sorting options: count, name, recent\n- Minimum recipes per group configurable\n\n## 🤖 **MOORA Recommendations:**\n- **SPK (Sistem Pendukung Keputusan)** for recipe recommendations\n- **Multi-criteria optimization** using MOORA algorithm\n- **Form-data format**: `available_ingredients[]`, `min_cooking_time`, `max_cooking_time`\n- **Ingredient availability** (70% weight) + **Time efficiency** (30% weight)\n- **No authentication required** for easy testing\n\n## 🔔 **Notifications:**\n- Auto-generated when users favorite recipes\n- Support unread filtering: `?unread_only=true`\n- Include profile pictures and recipe thumbnails\n\n## 📏 **Units System:**\n- Dynamic units per ingredient type\n- Categories: volume, weight, count, spices\n- Get units: `/api/units` or `/api/bahans/{id}/units`\n\n## 🖼️ **Images:**\n- Profile pictures: `/api/image/{filename}`\n- Recipe images: `/images/recipes/{filename}`\n- Auto-fallback to default images if not found\n\n## 🔧 **Troubleshooting:**\n- Use **Debug Routes** folder for connectivity testing\n- API Debug Test: Basic connectivity check\n- CORS Test: Cross-origin request testing\n- Check image endpoints for file serving issues",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -268,6 +268,126 @@
           }
         },
         {
+          "name": "Get Newest Recipes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/newest",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "newest"]
+            },
+            "description": "🔥 Get newest recipes ordered by creation date (latest first)"
+          }
+        },
+        {
+          "name": "Get Newest Recipes with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/newest?page=1&per_page=5",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "newest"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "🔥 Get newest recipes with pagination and per_page control"
+          }
+        },
+        {
+          "name": "Get Recipes by Category - Appetizer",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/category/appetizer",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "category", "appetizer"]
+            },
+            "description": "🥗 Get all appetizer recipes"
+          }
+        },
+        {
+          "name": "Get Recipes by Category - Main Course",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/category/main_course",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "category", "main_course"]
+            },
+            "description": "🍽️ Get all main course recipes"
+          }
+        },
+        {
+          "name": "Get Recipes by Category - Dessert",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recipes/category/dessert",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recipes", "category", "dessert"]
+            },
+            "description": "🍰 Get all dessert recipes"
+          }
+        },
+        {
           "name": "Create Recipe",
           "request": {
             "method": "POST",
@@ -301,6 +421,12 @@
                   "value": "20",
                   "type": "text",
                   "description": "Waktu memasak dalam menit"
+                },
+                {
+                  "key": "category",
+                  "value": "main_course",
+                  "type": "text",
+                  "description": "Kategori resep: appetizer, main_course, atau dessert"
                 },
                 {
                   "key": "thumbnail",
@@ -388,9 +514,15 @@
                 },
                 {
                   "key": "bahans[0][amount]",
-                  "value": "2 piring",
+                  "value": "250",
                   "type": "text",
-                  "description": "Jumlah bahan yang dibutuhkan"
+                  "description": "Jumlah bahan yang dibutuhkan (angka saja)"
+                },
+                {
+                  "key": "bahans[0][unit]",
+                  "value": "gram",
+                  "type": "text",
+                  "description": "Satuan bahan (gram, ml, buah, sdm, dll)"
                 },
                 {
                   "key": "bahans[1][id]",
@@ -400,9 +532,15 @@
                 },
                 {
                   "key": "bahans[1][amount]",
-                  "value": "2 butir",
+                  "value": "2",
                   "type": "text",
                   "description": "Jumlah bahan kedua"
+                },
+                {
+                  "key": "bahans[1][unit]",
+                  "value": "butir",
+                  "type": "text",
+                  "description": "Satuan bahan kedua"
                 },
                 {
                   "key": "bahans[2][id]",
@@ -412,9 +550,15 @@
                 },
                 {
                   "key": "bahans[2][amount]",
-                  "value": "2 sdm",
+                  "value": "2",
                   "type": "text",
                   "description": "Jumlah bahan ketiga"
+                },
+                {
+                  "key": "bahans[2][unit]",
+                  "value": "sdm",
+                  "type": "text",
+                  "description": "Satuan bahan ketiga"
                 }
               ]
             },
@@ -461,6 +605,12 @@
                   "key": "cooking_time",
                   "value": "25",
                   "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "main_course",
+                  "type": "text",
+                  "description": "Category: appetizer, main_course, atau dessert"
                 }
               ]
             },
@@ -774,7 +924,256 @@
       ]
     },
     {
+      "name": "Explore",
+      "description": "🔍 **Explore Feature - Recipe Discovery**\n\nDiscover recipes grouped by title similarity and category filtering.\n\n**How it works:**\n- Groups recipes by first word of title (e.g., \"Nasi Goreng\", \"Nasi Uduk\" → \"Nasi\" group)\n- Minimum 2 recipes per group (configurable)\n- Supports pagination, search, and sorting\n- Category filtering available\n\n**Parameters:**\n- `page`: Page number (default: 1)\n- `per_page`: Items per page (default: 12, max: 50)\n- `search`: Search keyword in group names\n- `sort_by`: count (most recipes), name (alphabetical), recent (latest recipes)\n- `min_recipes`: Minimum recipes per group (default: 2)\n\n**Workflow:**\n1. Use `/api/explore/groups` for all categories\n2. Use `/api/explore/category/{category}` for specific category\n3. Use `/api/explore/groups/{keyword}` for specific group details",
+      "item": [
+        {
+          "name": "Get All Recipe Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explore/groups",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explore", "groups"]
+            },
+            "description": "🔍 Get all recipe groups with default settings\n\n**Default Response:**\n- 12 groups per page\n- Sorted by recipe count (descending)\n- Minimum 2 recipes per group\n- All categories included"
+          }
+        },
+        {
+          "name": "Get Recipe Groups with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explore/groups?page=1&per_page=6&sort_by=count&min_recipes=2",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explore", "groups"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "per_page",
+                  "value": "6",
+                  "description": "Groups per page (max: 50)"
+                },
+                {
+                  "key": "sort_by",
+                  "value": "count",
+                  "description": "Sort: count, name, recent"
+                },
+                {
+                  "key": "min_recipes",
+                  "value": "2",
+                  "description": "Minimum recipes per group"
+                }
+              ]
+            },
+            "description": "🔍 Get recipe groups with custom pagination and sorting"
+          }
+        },
+        {
+          "name": "Search Recipe Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explore/groups?search=nasi&sort_by=count",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explore", "groups"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "nasi",
+                  "description": "Search keyword in group names"
+                },
+                {
+                  "key": "sort_by",
+                  "value": "count",
+                  "description": "Sort by recipe count"
+                }
+              ]
+            },
+            "description": "🔍 Search for specific recipe groups (e.g., all groups containing 'nasi')"
+          }
+        },
+        {
+          "name": "Get Groups by Category - Appetizer",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explore/category/appetizer",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explore", "category", "appetizer"]
+            },
+            "description": "🥗 Get recipe groups from appetizer category only"
+          }
+        },
+        {
+          "name": "Get Groups by Category - Main Course",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explore/category/main_course",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explore", "category", "main_course"]
+            },
+            "description": "🍽️ Get recipe groups from main course category only"
+          }
+        },
+        {
+          "name": "Get Groups by Category - Dessert",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explore/category/dessert",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explore", "category", "dessert"]
+            },
+            "description": "🍰 Get recipe groups from dessert category only"
+          }
+        },
+        {
+          "name": "Get Category Groups with Filters",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explore/category/main_course?page=1&per_page=10&search=ayam&sort_by=name&min_recipes=3",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explore", "category", "main_course"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "ayam"
+                },
+                {
+                  "key": "sort_by",
+                  "value": "name"
+                },
+                {
+                  "key": "min_recipes",
+                  "value": "3"
+                }
+              ]
+            },
+            "description": "🍽️ Get main course groups with filters: search 'ayam', min 3 recipes, sorted by name"
+          }
+        },
+        {
+          "name": "Get Specific Group Recipes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explore/groups/nasi",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explore", "groups", "nasi"]
+            },
+            "description": "🔍 Get all recipes in specific group (e.g., all recipes starting with 'Nasi')"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Units System",
+      "description": "📏 **Units & Measurements System**\n\nManage ingredient units and measurements for recipes.\n\n**Categories:**\n- **Volume**: ml, liter, gelas, sdm, sdt\n- **Weight**: gram, kg, ons\n- **Count**: buah, potong, lembar, siung\n- **Spices**: sejumput, secukupnya\n\n**Usage:**\n1. Get all units: `/api/units`\n2. Get units for specific ingredient: `/api/bahans/{id}/units`\n3. Use in recipe creation with `bahans[N][unit]` field",
+      "item": [
+        {
+          "name": "Get All Units",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/units",
+              "host": ["{{base_url}}"],
+              "path": ["api", "units"]
+            },
+            "description": "📏 Get all available units organized by category\n\n**Response Structure:**\n```json\n{\n  \"volume\": {\n    \"label\": \"Volume\",\n    \"units\": [\"ml\", \"liter\", \"gelas\", \"sdm\", \"sdt\"]\n  },\n  \"weight\": {\n    \"label\": \"Weight/Mass\", \n    \"units\": [\"gram\", \"kg\", \"ons\"]\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "Get Units for Specific Ingredient",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/bahans/1/units",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bahans", "1", "units"]
+            },
+            "description": "📏 Get applicable units for specific ingredient\n\n**Example Response:**\n```json\n{\n  \"success\": true,\n  \"data\": {\n    \"bahan\": \"Beras\",\n    \"units\": [\"gram\", \"kg\", \"gelas\", \"liter\"]\n  }\n}\n```\n\n**Usage:** Replace '1' with actual ingredient ID from `/api/bahans`"
+          }
+        }
+      ]
+    },
+    {
       "name": "Master Data",
+      "description": "🗂️ **Master Data Management**\n\nManage reference data for the recipe system.\n\n**Available Data:**\n- **Ingredients (Bahans)**: All available ingredients with ID and name\n- **Units**: Measurement units for ingredients\n- **Categories**: Recipe categories (appetizer, main_course, dessert)\n\n**Usage Pattern:**\n1. Get ingredients list: `/api/bahans`\n2. Get units system: `/api/units`\n3. Use IDs in recipe creation forms",
       "description": "📋 **Master Data Endpoints**\n\nUse these endpoints to get available tools and ingredients for recipe creation.\n\n**Workflow:**\n1. Call `/api/alats` to get available cooking tools\n2. Call `/api/bahans` to get available ingredients  \n3. Use the IDs from these responses in recipe creation\n\n**Example:**\n- If `/api/alats` returns `{\"id\": 1, \"name\": \"Wajan\"}`\n- Use `alats[0][id]=1` and `alats[0][amount]=1 buah` in recipe creation",
       "item": [
         {
@@ -811,6 +1210,181 @@
               "path": ["api", "bahans"]
             },
             "description": "🥬 Get list of all available ingredients\n\n**Response Example:**\n```json\n[\n  {\"id\": 1, \"name\": \"Nasi\"},\n  {\"id\": 2, \"name\": \"Telur\"},\n  {\"id\": 3, \"name\": \"Kecap Manis\"}\n]\n```\n\n**Usage in Recipe:**\n- Use the `id` in `bahans[0][id]`  \n- Add quantity in `bahans[0][amount]`"
+          }
+        }
+      ]
+    },
+    {
+      "name": "MOORA Recommendations",
+      "description": "🤖 **MOORA Algorithm - Recipe Recommendation System**\n\n**SPK (Sistem Pendukung Keputusan) untuk Rekomendasi Resep Masakan**\n\n## 📝 **Request Format:**\n- Uses **form-data** (consistent with other endpoints)\n- Required: `available_ingredients[]` array, `min_cooking_time`, `max_cooking_time`\n- No authentication required for easy testing\n\n## 🧮 **Algorithm Details:**\n\n### **Required Fields:**\n- `available_ingredients[0]`, `available_ingredients[1]`, etc.: Ingredient IDs you have\n- `min_cooking_time`: Minimum cooking time in minutes\n- `max_cooking_time`: Maximum cooking time in minutes\n\n### **MOORA Formula:**\n1. **Ingredient Match Ratio**: `Available_Ingredients / Total_Recipe_Ingredients`\n2. **Time Efficiency**: Preference scoring within specified time range\n3. **MOORA Score**: `(ingredient_score × 0.7) + (time_score × 0.3)`\n4. **Filtering**: Minimum score 0.3, maximum 10 results\n\n### **Criteria Weights:**\n- 🥬 **Ingredient Weight**: 70% (prioritas utama)\n- ⏱️ **Time Weight**: 30% (pertimbangan sekunder)\n- 🎯 **Score Threshold**: 0.3 (minimum untuk rekomendasi)\n- 📊 **Max Results**: 10 (optimal user experience)\n\n### **Example Input:**\n- Available ingredients: [1, 2, 3, 4, 5] (from `/api/bahans`)\n- Time range: 10-30 minutes\n\n### **Response Fields:**\n- `moora_score`: Objective ranking score (0-1)\n- `ingredient_match_ratio`: Availability ratio\n- `time_efficiency_score`: Time preference score\n- `cooking_time`: Recipe cooking time in minutes\n\n### **Workflow:**\n1. Get ingredient IDs from `/api/bahans`\n2. Use those IDs in `available_ingredients[]` array\n3. Set desired cooking time range\n4. Get ranked recipe recommendations",
+      "item": [
+        {
+          "name": "Get MOORA Recommendations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "available_ingredients[0]",
+                  "value": "1",
+                  "type": "text",
+                  "description": "ID bahan yang tersedia (contoh: Nasi)"
+                },
+                {
+                  "key": "available_ingredients[1]",
+                  "value": "2",
+                  "type": "text",
+                  "description": "ID bahan yang tersedia (contoh: Telur)"
+                },
+                {
+                  "key": "available_ingredients[2]",
+                  "value": "3",
+                  "type": "text",
+                  "description": "ID bahan yang tersedia (contoh: Kecap Manis)"
+                },
+                {
+                  "key": "available_ingredients[3]",
+                  "value": "4",
+                  "type": "text",
+                  "description": "ID bahan yang tersedia (contoh: Bawang Merah)"
+                },
+                {
+                  "key": "available_ingredients[4]",
+                  "value": "5",
+                  "type": "text",
+                  "description": "ID bahan yang tersedia (contoh: Cabai)"
+                },
+                {
+                  "key": "min_cooking_time",
+                  "value": "10",
+                  "type": "text",
+                  "description": "Waktu memasak minimum (menit)"
+                },
+                {
+                  "key": "max_cooking_time",
+                  "value": "30",
+                  "type": "text",
+                  "description": "Waktu memasak maksimum (menit)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/recommendations/moora",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recommendations", "moora"]
+            },
+            "description": "🤖 **Get recipe recommendations using MOORA algorithm**\n\n**Required Fields:**\n- `available_ingredients[]`: Array of ingredient IDs that you have\n- `min_cooking_time`: Minimum cooking time in minutes\n- `max_cooking_time`: Maximum cooking time in minutes\n\n**Algorithm Process:**\n1. Filters recipes within time range with matching ingredients\n2. Calculates ingredient match percentage (70% weight)\n3. Evaluates time efficiency preference (30% weight)\n4. Applies MOORA calculation: (ingredient_score × 0.7) + (time_score × 0.3)\n5. Filters results with minimum score 0.3\n6. Returns top 10 ranked recipes\n\n**Example Response:**\n```json\n{\n  \"success\": true,\n  \"message\": \"MOORA recommendations retrieved successfully\",\n  \"search_criteria\": {\n    \"ingredients_count\": 5,\n    \"ingredient_names\": [\"Nasi\", \"Telur\", \"Kecap Manis\"],\n    \"time_range\": \"10-30 menit\"\n  },\n  \"data\": [\n    {\n      \"recipe_id\": 1,\n      \"title\": \"Nasi Goreng Special\",\n      \"moora_score\": 0.85,\n      \"ingredient_match_ratio\": 0.8,\n      \"time_efficiency_score\": 0.9,\n      \"cooking_time\": 15\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "Get MOORA with More Ingredients",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "available_ingredients[0]",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "available_ingredients[1]",
+                  "value": "5",
+                  "type": "text"
+                },
+                {
+                  "key": "available_ingredients[2]",
+                  "value": "10",
+                  "type": "text"
+                },
+                {
+                  "key": "available_ingredients[3]",
+                  "value": "15",
+                  "type": "text"
+                },
+                {
+                  "key": "available_ingredients[4]",
+                  "value": "20",
+                  "type": "text"
+                },
+                {
+                  "key": "available_ingredients[5]",
+                  "value": "25",
+                  "type": "text"
+                },
+                {
+                  "key": "available_ingredients[6]",
+                  "value": "30",
+                  "type": "text"
+                },
+                {
+                  "key": "min_cooking_time",
+                  "value": "5",
+                  "type": "text"
+                },
+                {
+                  "key": "max_cooking_time",
+                  "value": "60",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/recommendations/moora",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recommendations", "moora"]
+            },
+            "description": "🤖 **Example with more ingredients and wider time range**\n\nThe more ingredients you provide and wider time range, the better the MOORA algorithm can match and rank recipes. This example uses 7 different ingredients with 5-60 minutes cooking time range."
+          }
+        },
+        {
+          "name": "MOORA Method Explanation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recommendations/method-explanation",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recommendations", "method-explanation"]
+            },
+            "description": "📚 **Get detailed explanation of MOORA algorithm**\n\nEducational endpoint that explains:\n- How MOORA algorithm works\n- Mathematical formulas used\n- Criteria weights and their reasoning\n- Step-by-step calculation process\n- Benefits of multi-criteria decision making\n\n**Perfect for:**\n- Understanding the recommendation logic\n- Academic research and documentation\n- System integration planning\n- User education and transparency"
+          }
+        },
+        {
+          "name": "Test MOORA Calculation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/recommendations/test",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recommendations", "test"]
+            },
+            "description": "🧪 **Test MOORA calculation with sample data**\n\nDevelopment/debugging endpoint that:\n- Uses predefined test ingredients\n- Shows detailed calculation steps\n- Displays intermediate values\n- Validates algorithm accuracy\n- Returns performance metrics\n\n**Response includes:**\n- Input ingredients and recipes\n- Step-by-step calculations\n- Normalization values\n- Final MOORA scores\n- Execution time and performance data\n\n**Use for:**\n- Algorithm validation\n- Performance testing\n- Debugging calculation issues\n- Understanding internal processes"
           }
         }
       ]

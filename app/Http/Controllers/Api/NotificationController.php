@@ -25,7 +25,7 @@ class NotificationController extends Controller
             }
 
             $notifications = $query->paginate(20);
-            
+
             // Transform notifications for better UI display
             $transformedNotifications = $notifications->through(function ($notification) {
                 return [
@@ -43,8 +43,8 @@ class NotificationController extends Controller
                     'recipe' => $notification->recipe ? [
                         'id' => $notification->recipe->id,
                         'title' => $notification->recipe->title,
-                        'thumbnail' => $notification->recipe->thumbnail ? 
-                            asset('images/recipes/' . $notification->recipe->thumbnail) : 
+                        'thumbnail' => $notification->recipe->thumbnail ?
+                            asset('images/recipes/' . $notification->recipe->thumbnail) :
                             asset('images/recipes/default-recipe.jpg')
                     ] : null,
                     'formatted_message' => $notification->fromUser->name . ' menambahkan resep anda ke favorit',

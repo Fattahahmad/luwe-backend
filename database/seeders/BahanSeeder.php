@@ -31,7 +31,7 @@ class BahanSeeder extends Seeder
             'Margarin',
             'Mentega',
             'Air',
-            
+
             // Bahan Pelengkap / Tambahan
             'Mie instan',
             'Kentang',
@@ -55,7 +55,7 @@ class BahanSeeder extends Seeder
             'Penyedap rasa',
             'Roti tawar',
             'Keju',
-            
+
             // Bumbu Dapur Kering
             'Lada bubuk',
             'Ketumbar bubuk',

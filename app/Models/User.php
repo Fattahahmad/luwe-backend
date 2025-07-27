@@ -46,19 +46,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     /**
      * Get the profile picture URL
      */
     public function getProfilePictureUrlAttribute(): string
     {
+        // Use request URL for dynamic base URL (works with ngrok)
+        $baseUrl = request()->getSchemeAndHttpHost();
+
         if ($this->profile_picture) {
-            return url('/api/image/' . $this->profile_picture);
+            return $baseUrl . '/api/image/' . $this->profile_picture;
         }
-        
-        return url('/api/image/default.svg');
+
+        return $baseUrl . '/api/image/default.svg';
     }
-    
+
     /**
      * Get the profile picture path for storage
      */

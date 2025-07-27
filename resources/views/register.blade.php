@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,33 +13,41 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
+
         .form-container {
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 30px;
         }
+
         .form-group {
             margin-bottom: 20px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
             color: #555;
         }
-        input[type="text"], input[type="email"], input[type="password"] {
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
         }
+
         .btn {
             width: 100%;
             padding: 12px;
@@ -49,34 +58,40 @@
             font-size: 16px;
             cursor: pointer;
         }
+
         .btn:hover {
             background-color: #0056b3;
         }
+
         .error {
             color: red;
             font-size: 14px;
             margin-top: 5px;
         }
+
         .links {
             text-align: center;
             margin-top: 20px;
         }
+
         .links a {
             color: #007bff;
             text-decoration: none;
         }
+
         .links a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
     <div class="form-container">
         <h1>Register - Luwe Recipe App</h1>
-        
+
         <form method="POST" action="{{ route('register.submit') }}">
             @csrf
-            
+
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" name="name" id="name" value="{{ old('name') }}" required>
@@ -114,4 +129,5 @@
         </div>
     </div>
 </body>
+
 </html>

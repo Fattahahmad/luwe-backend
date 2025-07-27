@@ -14,7 +14,8 @@ class Recipe extends Model
         'title',
         'description',
         'cooking_time',
-        'thumbnail'
+        'thumbnail',
+        'category'
     ];
 
     protected $appends = ['thumbnail_url'];
@@ -42,7 +43,7 @@ class Recipe extends Model
 
     public function bahans()
     {
-        return $this->belongsToMany(Bahan::class, 'recipe_bahans')->withPivot('amount')->withTimestamps();
+        return $this->belongsToMany(Bahan::class, 'recipe_bahans')->withPivot('amount', 'unit')->withTimestamps();
     }
 
     public function favorites()
@@ -59,9 +60,12 @@ class Recipe extends Model
     public function getThumbnailUrlAttribute()
     {
         if ($this->thumbnail) {
-            return asset('images/recipes/' . $this->thumbnail);
+            // Use request URL for dynamic base URL (works with ngrok)
+            $baseUrl = request()->getSchemeAndHttpHost();
+            return $baseUrl . '/images/recipes/' . $this->thumbnail;
         }
-        return asset('images/recipes/default-recipe.jpg');
+        $baseUrl = request()->getSchemeAndHttpHost();
+        return $baseUrl . '/images/recipes/default-recipe.jpg';
     }
 
     // Check if user has favorited this recipe

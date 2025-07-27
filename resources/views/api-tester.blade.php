@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,27 +13,32 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
+
         .container {
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 30px;
         }
+
         .test-section {
             margin-bottom: 30px;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
         .test-section h3 {
             color: #007bff;
             margin-bottom: 15px;
         }
+
         .btn {
             padding: 10px 20px;
             margin: 5px;
@@ -41,22 +47,27 @@
             cursor: pointer;
             font-size: 14px;
         }
+
         .btn-primary {
             background-color: #007bff;
             color: white;
         }
+
         .btn-success {
             background-color: #28a745;
             color: white;
         }
+
         .btn-warning {
             background-color: #ffc107;
             color: black;
         }
+
         .btn-danger {
             background-color: #dc3545;
             color: white;
         }
+
         .response {
             margin-top: 15px;
             padding: 15px;
@@ -68,30 +79,38 @@
             max-height: 300px;
             overflow-y: auto;
         }
+
         .success {
             background-color: #d4edda;
             border: 1px solid #c3e6cb;
             color: #155724;
         }
+
         .error {
             background-color: #f8d7da;
             border: 1px solid #f5c6cb;
             color: #721c24;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
-        input[type="text"], input[type="email"], input[type="password"] {
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 3px;
         }
+
         .token-display {
             background-color: #e9ecef;
             padding: 10px;
@@ -101,10 +120,11 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Luwe API Tester</h1>
-        
+
         <!-- Register Test -->
         <div class="test-section">
             <h3>1. Register Test</h3>
@@ -212,13 +232,15 @@
 
                 const result = await response.json();
                 displayResponse('registerResponse', result, response.status);
-                
+
                 if (result.success && result.data.token) {
                     authToken = result.data.token;
                     updateTokenDisplay();
                 }
             } catch (error) {
-                displayResponse('registerResponse', {error: error.message}, 500);
+                displayResponse('registerResponse', {
+                    error: error.message
+                }, 500);
             }
         }
 
@@ -241,13 +263,15 @@
 
                 const result = await response.json();
                 displayResponse('loginResponse', result, response.status);
-                
+
                 if (result.success && result.data.token) {
                     authToken = result.data.token;
                     updateTokenDisplay();
                 }
             } catch (error) {
-                displayResponse('loginResponse', {error: error.message}, 500);
+                displayResponse('loginResponse', {
+                    error: error.message
+                }, 500);
             }
         }
 
@@ -270,20 +294,24 @@
 
                 const result = await response.json();
                 displayResponse('loginResponse', result, response.status);
-                
+
                 if (result.success && result.data.token) {
                     authToken = result.data.token;
                     updateTokenDisplay();
                 }
             } catch (error) {
-                displayResponse('loginResponse', {error: error.message}, 500);
+                displayResponse('loginResponse', {
+                    error: error.message
+                }, 500);
             }
         }
 
         // Test Profile
         async function testProfile() {
             if (!authToken) {
-                displayResponse('profileResponse', {error: 'No token available. Please login first.'}, 401);
+                displayResponse('profileResponse', {
+                    error: 'No token available. Please login first.'
+                }, 401);
                 return;
             }
 
@@ -300,14 +328,18 @@
                 const result = await response.json();
                 displayResponse('profileResponse', result, response.status);
             } catch (error) {
-                displayResponse('profileResponse', {error: error.message}, 500);
+                displayResponse('profileResponse', {
+                    error: error.message
+                }, 500);
             }
         }
 
         // Test Logout
         async function testLogout() {
             if (!authToken) {
-                displayResponse('logoutResponse', {error: 'No token available. Please login first.'}, 401);
+                displayResponse('logoutResponse', {
+                    error: 'No token available. Please login first.'
+                }, 401);
                 return;
             }
 
@@ -323,29 +355,33 @@
 
                 const result = await response.json();
                 displayResponse('logoutResponse', result, response.status);
-                
+
                 if (result.success) {
                     authToken = null;
                     updateTokenDisplay();
                 }
             } catch (error) {
-                displayResponse('logoutResponse', {error: error.message}, 500);
+                displayResponse('logoutResponse', {
+                    error: error.message
+                }, 500);
             }
         }
 
         // Test Update Profile
         async function testUpdateProfile() {
             if (!authToken) {
-                displayResponse('updateProfileResponse', {error: 'No token available. Please login first.'}, 401);
+                displayResponse('updateProfileResponse', {
+                    error: 'No token available. Please login first.'
+                }, 401);
                 return;
             }
 
             const formData = new FormData();
-            
+
             const name = document.getElementById('updateName').value;
             const email = document.getElementById('updateEmail').value;
             const profilePicture = document.getElementById('updateProfilePicture').files[0];
-            
+
             if (name) formData.append('name', name);
             if (email) formData.append('email', email);
             if (profilePicture) formData.append('profile_picture', profilePicture);
@@ -363,7 +399,9 @@
                 const result = await response.json();
                 displayResponse('updateProfileResponse', result, response.status);
             } catch (error) {
-                displayResponse('updateProfileResponse', {error: error.message}, 500);
+                displayResponse('updateProfileResponse', {
+                    error: error.message
+                }, 500);
             }
         }
 
@@ -372,7 +410,7 @@
             const element = document.getElementById(elementId);
             element.style.display = 'block';
             element.textContent = `Status: ${status}\n\n${JSON.stringify(data, null, 2)}`;
-            
+
             if (status >= 200 && status < 300) {
                 element.className = 'response success';
             } else {
@@ -383,7 +421,7 @@
         // Update Token Display
         function updateTokenDisplay() {
             document.getElementById('currentToken').textContent = authToken ? authToken.substring(0, 50) + '...' : 'None';
-            
+
             if (authToken) {
                 const tokenElement = document.getElementById('tokenDisplay');
                 tokenElement.style.display = 'block';
@@ -394,4 +432,5 @@
         }
     </script>
 </body>
+
 </html>

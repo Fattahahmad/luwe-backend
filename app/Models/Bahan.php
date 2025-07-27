@@ -9,7 +9,11 @@ class Bahan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'units'];
+
+    protected $casts = [
+        'units' => 'array'
+    ];
 
     public function recipes()
     {

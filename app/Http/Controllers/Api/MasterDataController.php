@@ -76,4 +76,55 @@ class MasterDataController extends Controller
             'data' => $bahans
         ]);
     }
+
+    /**
+     * Get units for specific bahan
+     */
+    public function getBahanUnits($bahanId)
+    {
+        $bahan = Bahan::find($bahanId);
+
+        if (!$bahan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bahan not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Units retrieved successfully',
+            'data' => [
+                'bahan' => $bahan->name,
+                'units' => $bahan->units ?? []
+            ]
+        ]);
+    }
+
+    /**
+     * Get all common cooking units
+     */
+    public function getAllUnits()
+    {
+        $allUnits = [
+            'weight' => [
+                'label' => 'Satuan Berat',
+                'units' => ['gram', 'kilogram', 'ons', 'miligram']
+            ],
+            'volume' => [
+                'label' => 'Satuan Volume',
+                'units' => ['mililiter', 'liter', 'sendok makan', 'sendok teh', 'gelas', 'cangkir']
+            ],
+            'pieces' => [
+                'label' => 'Satuan Potongan/Buah',
+                'units' => ['buah', 'butir', 'siung', 'batang', 'lembar', 'potong', 'genggam', 'iris', 'sachet', 'bungkus']
+            ]
+        ];
+
+        return response()->json([
+            'success' => true,
+            'message' => 'All units retrieved successfully',
+            'data' => $allUnits
+        ]);
+    }
 }

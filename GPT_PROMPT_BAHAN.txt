@@ -1,0 +1,28 @@
+Buatkan 50 dummy data bahan makanan Indonesia dalam format JSON untuk aplikasi resep masakan. 
+
+Format yang dibutuhkan:
+- name: nama bahan dalam bahasa Indonesia
+- units: array JSON berisi unit-unit yang sesuai untuk bahan tersebut
+
+Units yang tersedia: "gram", "kilogram", "ons", "mililiter", "liter", "sendok makan", "sendok teh", "gelas", "cangkir", "buah", "biji", "butir", "lembar", "helai", "batang", "tangkai", "potong", "iris", "sachet", "bungkus", "kemasan", "siung"
+
+Kategori yang dibutuhkan:
+1. Bumbu dan Rempah (15 item): kunyit, jahe, lengkuas, serai, dll
+2. Sayuran (15 item): kangkung, bayam, terong, dll  
+3. Protein (10 item): ayam, ikan, tahu, tempe, dll
+4. Karbohidrat (5 item): beras, mie, tepung, dll
+5. Pantry (5 item): gula, garam, kecap, saus, minyak
+
+Format output JSON array:
+[
+  {
+    "name": "Bawang merah",
+    "units": ["buah", "siung", "gram", "ons"]
+  },
+  {
+    "name": "Cabai merah", 
+    "units": ["buah", "gram", "ons", "potong"]
+  }
+]
+
+Pastikan nama bahan spesifik, units realistis, dan tidak ada duplikasi. Fokus pada bahan-bahan yang umum digunakan dalam masakan Indonesia.
